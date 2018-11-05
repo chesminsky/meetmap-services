@@ -1,0 +1,33 @@
+{
+  "name": "meetmap",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cprint": "^1.1.5",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongoose": "^5.3.8",
+    "nconf": "^0.10.0",
+    "nodemon": "^1.18.4"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.0",
+    "eslint-config-google": "^0.10.0",
+    "socket.io": "^2.1.1"
+  },
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chesminsky/meetmap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chesminsky/meetmap/issues"
+  },
+  "homepage": "https://github.com/chesminsky/meetmap#readme"
+}
