@@ -6,6 +6,7 @@ const userModel = new mongoose.Schema({
   contacts: [String],
   googleId: String,
   email: String,
+  room: String,
 });
 
 module.exports = mongoose.model('User', userModel);
