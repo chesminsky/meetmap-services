@@ -45,12 +45,14 @@ require('./events')(io);
 
 // LOAD MONGOOSE MODELS
 const User = require('./models/user.model');
+const Notification = require('./models/notification.model');
 
 // web app
 app.use('/', express.static(__dirname + '/../meetmap-web/dist/'));
 
 // ROUTES FOR API
 app.use('/api/users', require('./routes/users.router')(User));
+app.use('/api/notifications', require('./routes/notifications.router')(Notification));
 app.use('/auth', require('./routes/auth.router')(User));
 
 app.get('/api/user', (req, res) => {

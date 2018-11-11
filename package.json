@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "nodemon app",
-    "debug": "node --nolazy --inspect-brk=9229 app"
+    "debug": "nodemon --nolazy --inspect-brk=9229 app"
   },
   "repository": {
     "type": "git",
