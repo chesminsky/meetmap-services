@@ -8,7 +8,8 @@ const nconf = require('nconf');
 nconf.argv().env();
 nconf.file({file: 'config.json'});
 
-require('./connect-db');
+require('./config/db.config');
+require('./config/passport.config');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
