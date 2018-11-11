@@ -53,3 +53,6 @@ app.use('/', express.static(__dirname + '/../meetmap-web/dist/'));
 app.use('/api/users', require('./routes/users.router')(User));
 app.use('/auth', require('./routes/auth.router')(User));
 
+app.get('/api/user', (req, res) => {
+  res.json(req.user);
+});

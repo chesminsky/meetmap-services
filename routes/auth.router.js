@@ -27,19 +27,20 @@ module.exports = function(User) {
       }
     });
   });
-
+  */
 
   router.get('/logout', (req, res) => {
     res.clearCookie('auth');
     res.end();
   });
-  */
+
 
   router.get('/google', passport.authenticate('google', {
     scope: ['profile'],
   }));
 
   router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+    userService.add(req.user);
     res.redirect('/');
   });
 
