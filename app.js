@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const cprint = require('cprint');
 const nconf = require('nconf');
+const passport = require('passport');
 
-nconf.argv().env();
 nconf.file({file: 'config.json'});
 
 require('./config/db.config');
@@ -14,6 +15,15 @@ require('./config/passport.config');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+app.use(cookieSession({
+  name: 'auth',
+  maxAge: 24*60*60*1000,
+  keys: [nconf.get('session:cookieKey')],
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // set the template engine ejs
 app.set('view engine', 'ejs');

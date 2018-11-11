@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const nconf = require('nconf');
 
-mongoose.connect(nconf.get('endpoints:db'), {
+const url = nconf.get('endpoints:db');
+
+mongoose.connect(url, {
   useNewUrlParser: true,
 });
 

@@ -40,7 +40,7 @@ module.exports = function(User) {
   }));
 
   router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.json(res);
+    res.json(req.user);
   });
 
   return router;

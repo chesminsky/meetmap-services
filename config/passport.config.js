@@ -7,11 +7,13 @@ const config = nconf.get('google');
 const User = require('../models/user.model');
 
 passport.serializeUser((user, done) => {
-  done(user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(done);
+  User.findById(id).then((foundUser) => {
+    done(null, foundUser);
+  });
 });
 
 passport.use(new GoogleStrategy({
@@ -21,12 +23,14 @@ passport.use(new GoogleStrategy({
 }, (accessToken, refreshToken, profile, done) => {
   User.findOne({googleId: profile.id}).then((currentUser) => {
     if (currentUser) {
-      done(currentUser);
+      done(null, currentUser);
     } else {
       new User({
         name: profile.displayName,
         googleId: profile.id,
-      }).save().then(done);
+      }).save().then((createdUser) => {
+        done(null, createdUser);
+      });
     }
   });
 }));
