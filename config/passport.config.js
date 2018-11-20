@@ -25,10 +25,11 @@ passport.use(new GoogleStrategy({
     if (currentUser) {
       done(null, currentUser);
     } else {
+      const email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
       new User({
         name: profile.displayName,
         googleId: profile.id,
-        email: profile.emails[0].value,
+        email,
       }).save().then((createdUser) => {
         done(null, createdUser);
       });
