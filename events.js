@@ -7,47 +7,28 @@ module.exports = function(io) {
   io.on('connection', (socket) => {
     const userId = socket.request.session.passport.user;
     console.log(`user id ${userId} connected`);
-/*
-    // default username
-    socket.username = 'Anonymous';
 
-    // listen on change_username
-    socket.on('change_username', (data) => {
-      if (!data || !data.username) {
-        console.error('tried to change username, but no username provided');
-        return;
-      }
-
-      socket.name = data.username;
-
-      const user = userService.get(data.username);
-
-      if (!user) {
-        console.error('tried to set socket id to user, but no user found with name ', data.username);
-      } else {
-        user.socketId = socket.id;
-        console.log('socketId: ' + socket.id + ' socket name ' + socket.name);
-      }
-    });
-
-    socket.on('change_room', (data) => {
-      console.log('socket joined room ' + data.socketId);
-      socket.join(data.socketId);
-    });
+    // TODO change to user name from db...
+    socket.name = userId;
 
     // listen on new_message
     socket.on('new_message', (data) => {
       // broadcast the new message
-
-      console.log('to room ' + data.room);
-
       io.to(data.room).emit('new_message', {message: data.message, name: socket.name});
     });
 
+    // join room
+    socket.on('change_room', (data) => {
+      console.log('socket joined room ' + data.room);
+      socket.join(data.room);
+    });
+
+    /*
     // listen on typing
     socket.on('typing', (data) => {
       socket.broadcast.emit('typing', {username: socket.username});
     });
+
 
     // invite to chat
     socket.on('invite', (data) => {
