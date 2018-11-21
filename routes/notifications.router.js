@@ -7,23 +7,23 @@ const router = new express.Router();
 
 module.exports = function(Notification) {
   router.route('/').get(function(req, res) {
-    Notification.find({toEmail: req.user.email}, function(err, notifications) {
+    Notification.find({userId: req.user._id}, function(err, notifications) {
       if (err) {
         res.status(500).send(err);
       } else {
         res.json(notifications);
       }
-    }).select({toEmail: 0});
+    });
   });
 
   router.route('/').post(function(req, res) {
-    const {type, toEmail, fromEmail, fromName} = req.body;
+
+    // TODO already exists
+    const { room, userId } = req.body;
 
     new Notification({
-      type,
-      toEmail,
-      fromEmail,
-      fromName,
+      room,
+      userId,
       accepted: false,
     }).save().then((created) => {
       res.json(created);

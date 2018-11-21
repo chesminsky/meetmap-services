@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
 const notificationModel = new mongoose.Schema({
-  type: String,
-  fromEmail: String,
-  fromName: String,
-  toEmail: String,
+  room: String,
+  userId: String,
   accepted: Boolean,
 });
 
