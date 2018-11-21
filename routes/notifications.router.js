@@ -18,15 +18,22 @@ module.exports = function(Notification) {
 
   router.route('/').post(function(req, res) {
 
-    // TODO already exists
     const { room, userId } = req.body;
 
-    new Notification({
-      room,
-      userId,
-      accepted: false,
-    }).save().then((created) => {
-      res.json(created);
+    Notification.findOne({ userId, accepted: false }, function(err, notification) {
+      if (err) {
+        res.status(500).send(err);
+      } else if (notification){
+        res.json(notification);
+      } else {
+        new Notification({
+          room,
+          userId,
+          accepted: false,
+        }).save().then((created) => {
+          res.json(created);
+        });
+      }
     });
   });
 
