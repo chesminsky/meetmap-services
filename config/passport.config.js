@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
+const LocalStrategy = require('passport-local');
 
 const nconf = require('nconf');
 const config = nconf.get('google');
@@ -36,3 +37,29 @@ passport.use(new GoogleStrategy({
     }
   });
 }));
+
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ name: username }).then((user) => {
+
+      if (!user) {
+        // TODO remove 
+        new User({
+          name: username,
+          password,
+        }).save().then((createdUser) => {
+          done(null, createdUser);
+        });
+      } else {
+        // TODO use authenticate method
+        if (user.password !== password) {
+          return done(null, false);
+        } else {
+          return done(null, user);
+        }
+      }
+
+    });
+  }
+));

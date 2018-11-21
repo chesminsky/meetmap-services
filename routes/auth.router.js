@@ -39,6 +39,11 @@ module.exports = function(User) {
     scope: ['profile'],
   }));
 
+  router.post('/local', passport.authenticate('local'), (req, res) => {
+    userService.add(req.user);
+    res.redirect('/');
+  });
+
   router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     userService.add(req.user);
     res.redirect('/');

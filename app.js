@@ -51,6 +51,14 @@ const Notification = require('./models/notification.model');
 app.use('/', express.static(__dirname + '/../meetmap-web/dist/'));
 
 // ROUTES FOR API
+app.use('/api', (req, res, next) => {
+  if (!req.user) {
+    res.status(401);
+    res.json({code: 'NOT_AUTHORIZED'});
+  } else {
+    next();
+  }
+});
 app.use('/api/users', require('./routes/users.router')(User));
 app.use('/api/notifications', require('./routes/notifications.router')(Notification));
 app.use('/auth', require('./routes/auth.router')(User));
