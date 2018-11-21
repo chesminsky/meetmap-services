@@ -9,5 +9,6 @@ mongoose.connect(url, {
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
+db.on('connected', console.log.bind(console, 'connection established'));
 
 module.exports = db;

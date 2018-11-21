@@ -1,13 +1,12 @@
 /**
  * IO Events handlers
  */
-const userService = require('./services/user.service');
 
 module.exports = function(io) {
   // listen on every connection
   io.on('connection', (socket) => {
     console.log('New user connected');
-
+/*
     // default username
     socket.username = 'Anonymous';
 
@@ -65,6 +64,7 @@ module.exports = function(io) {
         console.log('no friend connected');
       }
     });
+    */
   });
 };
 
