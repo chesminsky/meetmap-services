@@ -12,6 +12,7 @@ module.exports = function(io) {
 
     User.findById(userId).then((foundUser) => {
       socket.name = foundUser.name;
+      socket.userId = userId;
     });
 
     // listen on new_message
@@ -30,24 +31,6 @@ module.exports = function(io) {
     // listen on typing
     socket.on('typing', (data) => {
       socket.broadcast.emit('typing', {username: socket.username});
-    });
-
-
-    // invite to chat
-    socket.on('invite', (data) => {
-      if (!data || !data.name) {
-        console.error('tried to invite, but no username provided');
-        return;
-      }
-
-      const friend = userService.get(data.name);
-
-      if (friend && friend.socketId) {
-        socket.broadcast.to(friend.socketId).emit('invitation', {name: socket.name, socketId: socket.id});
-        console.log('invite to friend ' + friend.name + ' socketId' + friend.socketId);
-      } else {
-        console.log('no friend connected');
-      }
     });
     */
   });

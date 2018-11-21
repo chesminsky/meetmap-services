@@ -64,7 +64,7 @@ app.use('/api', (req, res, next) => {
   }
 });
 app.use('/api/users', require('./routes/users.router')(User));
-app.use('/api/notifications', require('./routes/notifications.router')(Notification));
+app.use('/api/notifications', require('./routes/notifications.router')(Notification, io));
 app.use('/auth', require('./routes/auth.router')(User));
 
 app.get('/api/user', (req, res) => {

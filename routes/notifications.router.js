@@ -5,7 +5,7 @@
 const express = require('express');
 const router = new express.Router();
 
-module.exports = function(Notification) {
+module.exports = function(Notification, io) {
   /**
    * Raad all related to user
    */
@@ -31,12 +31,21 @@ module.exports = function(Notification) {
       } else if (notification) {
         res.json(notification);
       } else {
-        new Notification({
+        const model = {
           room,
           userId,
           from: req.user.name,
-        }).save().then((created) => {
+        };
+        new Notification(model).save().then((created) => {
           res.json(created);
+
+          const sockets = Object.values(io.sockets.connected);
+          const mySocket = sockets.find((socket) => socket.userId === req.user.id);
+          const friendSocket = sockets.find((socket) => socket.userId === userId);
+
+          if (mySocket && friendSocket) {
+            mySocket.broadcast.to(friendSocket.id).emit('invitation');
+          }
         });
       }
     });
