@@ -17,9 +17,9 @@ module.exports = function(User) {
     }).select({password: 0});
   });
 
-  router.route('/:name').get(function(req, res) {
-    // get user by name
-    User.findOne({name: req.params.name}, function(err, user) {
+  router.route('/:id').get(function(req, res) {
+    // get user by id
+    User.findById(req.params.id, function(err, user) {
       if (err) {
         res.status(500).send(err);
       } else {
