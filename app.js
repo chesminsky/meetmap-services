@@ -16,11 +16,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(cookieSession({
+const cookieSessionFn = cookieSession({
   name: 'auth',
   maxAge: 24*60*60*1000,
   keys: [nconf.get('session:cookieKey')],
-}));
+});
+app.use(cookieSessionFn);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -41,6 +42,9 @@ const server = app.listen(port, function() {
 
 // socket.io instantiation
 const io = require('socket.io')(server);
+io.use((socket, next) => {
+  cookieSessionFn(socket.request, {}, next);
+});
 require('./events')(io);
 
 // LOAD MONGOOSE MODELS

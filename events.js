@@ -5,7 +5,8 @@
 module.exports = function(io) {
   // listen on every connection
   io.on('connection', (socket) => {
-    console.log('New user connected');
+    const userId = socket.request.session.passport.user;
+    console.log(`user id ${userId} connected`);
 /*
     // default username
     socket.username = 'Anonymous';
