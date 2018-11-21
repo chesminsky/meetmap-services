@@ -39,27 +39,8 @@ passport.use(new GoogleStrategy({
 }));
 
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ name: username }).then((user) => {
-
-      if (!user) {
-        // TODO remove 
-        new User({
-          name: username,
-          password,
-        }).save().then((createdUser) => {
-          done(null, createdUser);
-        });
-      } else {
-        // TODO use authenticate method
-        if (user.password !== password) {
-          return done(null, false);
-        } else {
-          return done(null, user);
-        }
-      }
-
-    });
-  }
-));
+passport.use(new LocalStrategy(function(username, password, done) {
+  User.authenticate(username, password, function(error, user) {
+		done(error, user);
+	});
+}));
