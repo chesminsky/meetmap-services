@@ -2,14 +2,17 @@
  * IO Events handlers
  */
 
+const User = require('./models/user.model');
+
 module.exports = function(io) {
   // listen on every connection
   io.on('connection', (socket) => {
     const userId = socket.request.session.passport.user;
     console.log(`user id ${userId} connected`);
 
-    // TODO change to user name from db...
-    socket.name = userId;
+    User.findById(userId).then((foundUser) => {
+      socket.name = foundUser.name;
+    });
 
     // listen on new_message
     socket.on('new_message', (data) => {
