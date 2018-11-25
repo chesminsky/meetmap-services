@@ -3,6 +3,7 @@
  */
 
 const User = require('./models/user.model');
+const gpsMock = require('./mocks/gps');
 
 module.exports = function(io) {
   // listen on every connection
@@ -33,6 +34,17 @@ module.exports = function(io) {
       socket.broadcast.emit('typing', {username: socket.username});
     });
     */
+
+    const intervalId = setInterval(() => {
+      io.emit('gps', {
+        pos: gpsMock.next(),
+        name: 'bot',
+      });
+    }, 2000);
+
+    socket.on('disconnect', function() {
+      clearInterval(intervalId);
+    });
   });
 };
 
