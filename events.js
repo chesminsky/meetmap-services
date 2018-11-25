@@ -22,6 +22,12 @@ module.exports = function(io) {
       io.to(data.room).emit('new_message', {message: data.message, name: socket.name});
     });
 
+    // listen on gps
+    socket.on('gps', (data) => {
+      // broadcast gps
+      io.to(data.room).emit('gps', {pos: data.pos, name: socket.name});
+    });
+
     // join room
     socket.on('change_room', (data) => {
       console.log('socket joined room ' + data.room);
@@ -35,6 +41,8 @@ module.exports = function(io) {
     });
     */
 
+    /*
+    // MOCK
     const intervalId = setInterval(() => {
       io.emit('gps', {
         pos: gpsMock.next(),
@@ -45,6 +53,7 @@ module.exports = function(io) {
     socket.on('disconnect', function() {
       clearInterval(intervalId);
     });
+    */
   });
 };
 
